@@ -72,8 +72,8 @@ nav div:hover .nav-item{
     height: 100%;
 }
 
-.footer {
-    display: flex;                    
+#footerSection{
+    display: flex;                
     justify-content: space-between;            
     padding: 10px;                    
     background-color: #f4f4f4;        
@@ -101,7 +101,7 @@ nav div:hover .nav-item{
 
 .heart-animation {
     position: absolute;
-    top: 3px; 
+    top: 7px; 
     right: 2px; 
     width: 10px; 
     height: 10px;
@@ -130,76 +130,94 @@ nav div:hover .nav-item{
     }
 }
 
-
-
 .thumbs i:hover{
     color: red;
     transform: scale(1.2);
 }
 
-.search-container {
-    position: relative;
-    width: 250px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+#breedSearchSection{
+    padding-top: 20px;
 }
 
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
 .input-wrapper {
     position: relative;
+    width: 100%;
 }
-
 #breedSearch {
     width: 100%;
-    padding: 8px 30px 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-    outline: none;
+    padding: 12px 40px 12px 16px;
+    font-size: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 #breedSearch:focus {
+    outline: none;
     border-color: #2196F3;
-    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
 }
 
+/* Clear button styling */
 .clear-button {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
+    font-size: 20px;
+    color: #9e9e9e;
     cursor: pointer;
-    color: #666;
-    font-size: 18px;
     display: none;
+    padding: 4px;
+    line-height: 1;
 }
 
 .clear-button.show {
     display: block;
 }
-
+/* Dropdown styling */
 #breedDropdown {
-    position: absolute;
     width: 100%;
-    max-height: 240px;
+    max-height: 300px;
     overflow-y: auto;
-    margin-top: 4px;
-    padding: 4px 0;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    list-style: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
     z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#breedDropdown::-webkit-scrollbar {
+    width: 8px;
 }
 
-#breedDropdown.hidden {
-    display: none;
+#breedDropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#breedDropdown::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+#breedDropdown::-webkit-scrollbar-thumb:hover {
+    background: #688fca;
 }
 
 .dropdown-item {
-    padding: 8px 12px;
+    padding: 12px 16px;
     cursor: pointer;
-    color: #333;
+    transition: background-color 0.2s ease;
 }
 
 .dropdown-item:hover {
@@ -207,28 +225,91 @@ nav div:hover .nav-item{
 }
 
 .dropdown-item.selected {
-    background-color: #2196F3;
-    color: white;
+    background-color: #e3f2fd;
+    color: #1976d2;
 }
 
-.dropdown-item.selected:hover {
-    background-color: #1976D2;
+.hidden {
+    display: none;
 }
 
-/* Custom scrollbar */
-#breedDropdown::-webkit-scrollbar {
-    width: 8px;
+/* breed images */
+.image-container{
+    padding-top: 20px;
+}
+#imageContainer img {
+    max-width: 100%;
+    height: auto;
+}
+.breednames{
+    padding-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+#breedTitle{
+    font-size: 20px;
+    font-weight: 600;
+}
+#breedOrigin{
+    font-size: 16px;
+    color: grey;
+    font-weight: 400;
+}
+#breedId{
+    font-size: 14px;
+    color: rgb(163, 161, 161);
+    font-weight: 200;
+}
+#breedDescription{
+    padding-top: 20px;
+    color: rgb(80, 78, 78);
+    text-align: left;
+}
+.source-link{
+    padding-top: 20px;
+}
+.source-link a {
+    text-align: left;
+    color: orangered;
 }
 
-#breedDropdown::-webkit-scrollbar-track {
-    background: #f1f1f1;
+
+/* fav part */
+/* General Styles */
+#fav-container {
+    display: block;
 }
 
-#breedDropdown::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 }
 
-#breedDropdown::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.grid-container img {
+    width: 30%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.scroll-container {
+    display: block;
+    overflow-y: scroll;
+    max-height: 500px; /* Adjust the height based on your design */
+}
+
+.scroll-container img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+/* For smaller screens, you can adjust the grid layout to fit better */
+@media (max-width: 768px) {
+    .grid-container img {
+        width: 45%;
+    }
 }

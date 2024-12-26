@@ -17,6 +17,10 @@
 
   <!-- DaisyUI CDN -->
   <script src="https://cdn.jsdelivr.net/npm/daisyui@2.45.0/dist/full.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+<link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+
   
 </head>
 <body>
@@ -50,45 +54,91 @@
         <div id="breedSearchSection" style="display:none;">
             <div class="search-container">
                 <div class="input-wrapper">
-                <input type="text" id="breedSearch" placeholder="Select a breed..." />
-                <span id="clearButton" class="clear-button hidden">×</span>
+                    <input type="text" id="breedSearch" placeholder="Select a breed..." />
+                    <span id="clearButton" class="clear-button hidden">×</span>
                 </div>
                 <ul id="breedDropdown" class="hidden"></ul>
             </div>
-
+        
             <div id="breedContent" class="breed-content hidden">
-                <!-- Main Image and Dots -->
                 <div class="image-container">
-                <div id="imageContainer" class="main-image"></div>
-                <div class="dot-indicators" id="dotIndicators"></div>
-            </div>
-
-            <!-- Breed Information -->
-            <div class="breed-info">
-                <h2 id="breedTitle" class="breed-title"></h2>
-                <p id="breedDescription" class="breed-description"></p>
-                <div class="source-link">
-                    <a href="#" class="wikipedia-link">WIKIPEDIA</a>
+                    <div class="swiffy-slider slider-item-ratio slider-item-ratio-16x9 slider-nav-animation slider-nav-animation-fadein slider-item-first-visible" id="swiffy-animation">
+                        <ul class="slider-container" id="imageContainer">
+                        </ul>
+                    
+                        <button type="button" class="slider-nav" aria-label="Go to previous"></button>
+                        <button type="button" class="slider-nav slider-nav-next" aria-label="Go to next"></button>
+                    
+                        <div class="slider-indicators">
+                            <button aria-label="Go to slide" class="active"></button>
+                            <button aria-label="Go to slide"></button>
+                            <button aria-label="Go to slide"></button>
+                            <button aria-label="Go to slide"></button>
+                            <button aria-label="Go to slide"></button>
+                            <button aria-label="Go to slide"></button>
+                        </div>
+                    </div>
                 </div>
+        
+                <!-- Breed Information -->
+                <div class="breed-info">
+                    <div class="breednames">
+                        <h2 id="breedTitle" class="breed-title"></h2>
+                        <span id="breedOrigin"></span>
+                        <span id="breedId"></span>
+                    </div>
+                    
+                    <p id="breedDescription" class="breed-description"></p>
+                    <div class="source-link">
+                        <a href="#" class="wikipedia-link">WIKIPEDIA</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <!-- Favorites Section -->
+        <div id="fav-container"  style="display: none;">
+            <div class="view-options">
+                <button class="active" id="grid-view" onclick="switchLayout('grid')">
+                    <i class="ri-layout-grid-fill"></i> 
+                </button>
+                <button id="scroll-view" onclick="switchLayout('scroll')">
+                    <i class="ri-layout-horizontal-line"></i> 
+                </button>
+            </div>
+            <div id="fav-image-container" class="grid-container">
+                {{if .Favorites}}
+                    {{range .Favorites}}
+                        <div class="fav-item">
+                            <img src="{{.Image.URL}}" alt="Favorite Image"/>
+                           
+                        </div>
+                    {{end}}
+                {{else}}
+                    <p>No favorites found.</p>
+                {{end}}
             </div>
         </div>
 
-        <!-- footer -->
+        <!-- Footer should be outside breedSearchSection -->
         <div class="footer" id="footerSection">
             <div class="heart-container">
-                <i class="ri-heart-2-line" id="heart-icon" onclick="addToFavorites('{{.CatImageID}}')"></i>
+                <i class="ri-heart-2-line" id="heart-icon" onclick="addToFavorites('{{.ImageID}}')"></i>
                 <span class="heart-animation"></span>
             </div>
             <div class="thumbs" style="gap: 10px;">
-                <i class="ri-thumb-up-line" id="thumb-up" onclick="sendVote('{{.CatImageID}}', true)"></i>
-                <i class="ri-thumb-down-line" id="thumb-down" onclick="sendVote('{{.CatImageID}}', false)"></i>
+                <i class="ri-thumb-up-line" id="thumb-up" onclick="sendVote('{{.ImageID}}',true)"></i>
+                <i class="ri-thumb-down-line" id="thumb-down" onclick="sendVote('{{.ImageID}}', false)"></i>
             </div>
         </div>
+
     </div>
     
     
     <script src="static/js/onloading.js"></script>
-    <script src="static/js/breeddropdown.js"></script>
-
+    <script src="static/js/breedfetching.js"></script>
+    <script src="static/js/voting.js"></script>
+    <script src="static/js/makefav.js"></script>
+    
 </body>
 </html>

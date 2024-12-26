@@ -25,12 +25,20 @@ function showVoting() {
     document.getElementById('breedSearchSection').style.display = 'none';
     document.getElementById('randomCatImageSection').style.display = 'block';
     document.getElementById('footerSection').style.display='flex';
+    document.getElementById('fav-container').style.display='none';
 }
 
 function showBreedSearch() {
     document.getElementById('breedSearchSection').style.display = 'block';
     document.getElementById('randomCatImageSection').style.display = 'none';
     document.getElementById('footerSection').style.display='none';
+    document.getElementById('fav-container').style.display='none';
 }
 
+function showFavorites() {
+    document.getElementById('breedSearchSection').style.display = 'none';
+    document.getElementById('randomCatImageSection').style.display = 'none';
+    document.getElementById('footerSection').style.display='none';
+    document.getElementById('fav-container').style.display='block';
+}
     
