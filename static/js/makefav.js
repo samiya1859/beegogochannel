@@ -16,9 +16,8 @@ function addToFavorites(imageID) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())  // Parse the JSON response
+    .then(response => response.json())  
     .then(data => {
-        // Check if the response status is success
         if (data.status === 'success') {
             alert("Image added to favorites!");
             console.log("SUCCESSS!!!")
@@ -34,48 +33,69 @@ function addToFavorites(imageID) {
 
 
 
-// for getting all favs
-// Function to fetch favorites and display them
-// function fetchFavorites() {
-//     fetch('/fav/getall')  
-//         .then(response => response.json())
-//         .then(favorites => {
-//             const favContainer = document.getElementById("fav-image-container");
-//             console.log(favContainer)
-//             favContainer.innerHTML = ""; 
-
-//             // Check if there are favorites to display
-//             if (favorites && favorites.length > 0) {
-//                 favorites.forEach(fav => {
-//                     const favItem = document.createElement("div");
-//                     favItem.classList.add("fav-item");
-//                     favItem.innerHTML = `
-//                         <img src="${fav.image.url}" alt="Favorite Image"/>
-//                     `;
-//                     favContainer.appendChild(favItem);
-//                 });
-//             } else {
-//                 favContainer.innerHTML = "<p>No favorites found.</p>";
-//             }
-
-//             // Display the container once the data is loaded
-//             document.getElementById("fav-container").style.display = "block";
-//         })
-//         .catch(err => console.error('Error fetching favorites:', err));
-// }
-
-// Function to switch between grid and scroll layout
+// Function to toggle between Grid and Scroll layout
 function switchLayout(layout) {
-    const favContainer = document.getElementById("fav-image-container");
-    
-    if (layout === "grid") {
-        favContainer.classList.remove("scroll-container");
-        favContainer.classList.add("grid-container");
-    } else {
-        favContainer.classList.remove("grid-container");
-        favContainer.classList.add("scroll-container");
+    const favImageContainer = document.getElementById('fav-image-container');
+    favImageContainer.classList.remove('grid-container', 'scroll-container');
+    if (layout === 'grid') {
+        favImageContainer.classList.add('grid-container');
+    } else if (layout === 'scroll') {
+        favImageContainer.classList.add('scroll-container');
     }
 }
 
+// Function to fetch and load favorite images
+function loadFavorites() {
+    console.log("Loading favorites...");  // This will show in the console if called
 
+    fetch('https://api.thecatapi.com/v1/favourites', {
+        method: 'GET',
+        headers: {
+            'x-api-key': 'live_aEIcWNMCOCKINdpArjjNnm54ivWft2t1E2ZiBWTPsjuhWXPjq5Ih8NhFzZUqzwHW' // Replace with your actual API key
+        }
+    })
+    .then(response => {
+        console.log("Response Status: ", response.status);
+        if (!response.ok) {
+            throw new Error("Network response was not ok.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Data received: ", data);  // Check if data is coming through
 
+        const favContainer = document.getElementById("fav-image-container");
+        if (!favContainer) {
+            console.error("Favorite image container not found.");
+            return;
+        }
+        
+        favContainer.innerHTML = ""; 
+        
+        data.forEach(fav => {
+            const favItem = document.createElement("div");
+            favItem.classList.add("fav-item");
+            
+            const img = document.createElement("img");
+            img.src = fav.image.url;
+            img.alt = "Favorite Cat Image";
+            
+            favItem.appendChild(img);
+            favContainer.appendChild(favItem);
+        });
+
+        // Switch to the grid layout
+        switchLayout('grid');
+    })
+    .catch(error => {
+        console.error('Error fetching favorites:', error);
+    });
+}
+
+function showFavorites() {
+    document.getElementById('breedSearchSection').style.display = 'none';
+    document.getElementById('randomCatImageSection').style.display = 'none';
+    document.getElementById('footerSection').style.display='none';
+    document.getElementById('fav-container').style.display='block';
+    loadFavorites();
+}

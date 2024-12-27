@@ -106,20 +106,9 @@
                     <i class="ri-layout-horizontal-line"></i> 
                 </button>
             </div>
-            <div id="fav-image-container" class="grid-container">
-                {{if .Favorites}}
-                    {{range .Favorites}}
-                        <div class="fav-item">
-                            <img src="{{.Image.URL}}" alt="Favorite Image"/>
-                           
-                        </div>
-                    {{end}}
-                {{else}}
-                    <p>No favorites found.</p>
-                {{end}}
-            </div>
+            <div id="fav-image-container" class="grid-container"></div>
         </div>
-
+        
         <!-- Footer should be outside breedSearchSection -->
         <div class="footer" id="footerSection">
             <div class="heart-container">
@@ -131,7 +120,6 @@
                 <i class="ri-thumb-down-line" id="thumb-down" onclick="sendVote('{{.ImageID}}', false)"></i>
             </div>
         </div>
-
     </div>
     
     

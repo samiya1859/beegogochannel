@@ -35,10 +35,5 @@ function showBreedSearch() {
     document.getElementById('fav-container').style.display='none';
 }
 
-function showFavorites() {
-    document.getElementById('breedSearchSection').style.display = 'none';
-    document.getElementById('randomCatImageSection').style.display = 'none';
-    document.getElementById('footerSection').style.display='none';
-    document.getElementById('fav-container').style.display='block';
-}
+
     

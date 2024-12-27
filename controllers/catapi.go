@@ -295,81 +295,57 @@ func (c *CatAPIController) Favourite() {
 }
 
 func (c *CatAPIController) GetFavorites() {
+	// Load the API key from configuration
 	apiKey, err := config.String("CAT_api")
-	fmt.Println(apiKey)
-	fmt.Println(err)
-	if apiKey == "" {
+	if err != nil || apiKey == "" {
 		c.Ctx.WriteString("API Key is missing")
 		return
 	}
 
-	// Channel to handle the response from the goroutine
-	resultChannel := make(chan interface{})
-	errorChannel := make(chan error)
-
-	go func() {
-		// Prepare the API request to get the user's favorites
-		req, err := http.NewRequest("GET", "https://api.thecatapi.com/v1/favourites", nil)
-		if err != nil {
-			errorChannel <- fmt.Errorf("error preparing the request: %v", err)
-			return
-		}
-
-		// Set the API Key header
-		req.Header.Set("x-api-key", apiKey)
-
-		// Make the API call
-		client := &http.Client{}
-		resp, err := client.Do(req)
-		if err != nil {
-			errorChannel <- fmt.Errorf("error making the request: %v", err)
-			return
-		}
-		defer resp.Body.Close()
-
-		// Read and parse the response
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			errorChannel <- fmt.Errorf("error reading response body: %v", err)
-			return
-		}
-
-		// Unmarshal the response into the favorites struct
-		var favorites []struct {
-			Image struct {
-				URL string `json:"url"`
-			} `json:"image"`
-		}
-		err = json.Unmarshal(body, &favorites)
-		if err != nil {
-			errorChannel <- fmt.Errorf("error unmarshalling response: %v", err)
-			return
-		}
-
-		// Send the favorites data through the result channel
-		resultChannel <- favorites
-	}()
-
-	// Wait for the result or error from the goroutines
-	select {
-	case result := <-resultChannel:
-		// Pass the favorite images to the template
-		if favorites, ok := result.([]struct {
-			Image struct {
-				URL string `json:"url"`
-			} `json:"image"`
-		}); ok {
-			c.Data["Favorites"] = favorites
-			fmt.Println("Favorites Data:", favorites)
-
-		}
-		c.TplName = "home.tpl"
-		close(resultChannel)
-		close(errorChannel)
-	case err := <-errorChannel:
-		c.Data["Error"] = err.Error()
-		c.TplName = "error.tpl"
-		close(resultChannel)
-		close(errorChannel)
+	// Prepare the API request to get the user's favorites
+	req, err := http.NewRequest("GET", "https://api.thecatapi.com/v1/favourites", nil)
+	if err != nil {
+		c.Ctx.WriteString("Error preparing the request")
+		return
 	}
+
+	// Set the API Key header
+	req.Header.Set("x-api-key", apiKey)
+
+	// Make the API call
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.Ctx.WriteString("Error fetching favorites")
+		return
+	}
+	defer resp.Body.Close()
+
+	// Read and parse the response
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		c.Ctx.WriteString("Error reading response")
+		return
+	}
+
+	var favorites []struct {
+		Image struct {
+			ID  string `json:"id"`
+			URL string `json:"url"`
+		} `json:"image"`
+	}
+	err = json.Unmarshal(body, &favorites)
+	if err != nil {
+		c.Ctx.WriteString("Error unmarshalling JSON")
+		return
+	}
+
+	// Pass the favorite images to the template
+	if len(favorites) > 0 {
+		c.Data["Favorites"] = favorites
+	} else {
+		c.Data["Favorites"] = nil
+	}
+
+	c.TplName = "home.tpl"
 }

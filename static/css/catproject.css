@@ -276,28 +276,64 @@ nav div:hover .nav-item{
 
 /* fav part */
 /* General Styles */
-#fav-container {
-    display: block;
-}
 
 .grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  
+    gap: 16px; 
+    padding: 20px; 
+    box-sizing: border-box; 
 }
 
-.grid-container img {
-    width: 30%;
-    height: auto;
-    margin-bottom: 10px;
-    border-radius: 8px;
+.fav-item {
+    overflow: hidden; 
+    border-radius: 8px;  
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
+
+.fav-item img {
+    width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    transition: transform 0.3s ease;  
+}
+
+.fav-item:hover {
+    transform: translateY(-5px);  
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);  /* Stronger shadow on hover */
+}
+
+.fav-item:hover img {
+    transform: scale(1.1);  
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(6, 1fr);  
+    }
+    .scroll-container{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);  
+    }
+    .scroll-container{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+
 
 .scroll-container {
     display: block;
     overflow-y: scroll;
-    max-height: 500px; /* Adjust the height based on your design */
+    max-height: 500px; 
 }
 
 .scroll-container img {
@@ -307,9 +343,4 @@ nav div:hover .nav-item{
     border-radius: 8px;
 }
 
-/* For smaller screens, you can adjust the grid layout to fit better */
-@media (max-width: 768px) {
-    .grid-container img {
-        width: 45%;
-    }
-}
+
