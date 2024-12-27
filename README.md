@@ -25,11 +25,11 @@ go run main.go
 ```
 The app will be available at http://localhost:8080.
 
-##Testing
+## Testing
 
 To run tests, execute the following:
 ```bash
 go test ./tests
 ```
-##License
+## License
 This project is open-source and available under the MIT License.
